@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import PageLayout from "./Layouts/pageLayout";
 import { GeneralPages } from "./utils/pageLinks";
+import PageLayout from "./Layouts/PageLayout";
 
 function App() {
   return (
