@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle, Rocket, Target, Globe, Users } from 'lucide-react';
+import { AnimatedSection, staggerChildren } from '../hooks/useScrollAnimation';
 
 const Roadmap:React.FC = () => {
   const roadmapItems = [
@@ -144,23 +145,29 @@ const Roadmap:React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 pt-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center mb-16">
+        {/* Header */}
+        <AnimatedSection animation="fadeInUp" className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Road<span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">map</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Our journey towards building the most comprehensive digital finance ecosystem
           </p>
-        </div>
+        </AnimatedSection>
 
         {/* Key Milestones */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {milestones.map((milestone, index) => (
-            <div key={index} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center">
+            <AnimatedSection
+              key={index}
+              animation="scaleIn"
+              delay={staggerChildren(index)}
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center"
+            >
               <h3 className="text-lg font-semibold text-white mb-2">{milestone.metric}</h3>
               <div className="text-2xl font-bold text-cyan-300 mb-1">{milestone.current}</div>
               <div className="text-sm text-gray-400">Target: {milestone.target}</div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
 
@@ -170,7 +177,13 @@ const Roadmap:React.FC = () => {
 
           <div className="space-y-12">
             {roadmapItems.map((item, index) => (
-              <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+              <AnimatedSection
+                key={index}
+                animation={index % 2 === 0 ? "fadeInLeft" : "fadeInRight"}
+                delay={staggerChildren(index)}
+                className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}
+              >
+                {/* Timeline Card */}
                 <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
                   <div className={`bg-white/10 backdrop-blur-md border rounded-2xl p-6 ${
                     item.status === 'completed' ? 'border-green-500/50 bg-green-500/5' :
@@ -252,13 +265,13 @@ const Roadmap:React.FC = () => {
                 </div>
 
                 <div className="w-1/2"></div>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
 
         {/* Team Section */}
-        <div className="mt-24 text-center">
+        <AnimatedSection animation="fadeInUp" className="mt-24 text-center">
           <h2 className="text-3xl font-bold text-white mb-8">Our Team</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {[
@@ -266,18 +279,23 @@ const Roadmap:React.FC = () => {
               { name: 'uvw', role: 'CTO', bio: 'Expert in scalable app architecture.' },
               { name: 'xyz', role: 'Head of BizDev', bio: 'Background in cross-industry partnerships.' }
             ].map((member, i) => (
-              <div key={i} className="bg-white/10 border border-white/20 rounded-2xl p-6">
+              <AnimatedSection
+                key={i}
+                animation="scaleIn"
+                delay={staggerChildren(i)}
+                className="bg-white/10 border border-white/20 rounded-2xl p-6"
+              >
                 <Users className="w-10 h-10 text-cyan-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-white">{member.name}</h3>
                 <p className="text-cyan-300">{member.role}</p>
                 <p className="text-gray-400 mt-2 text-sm">{member.bio}</p>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
-        </div>
+        </AnimatedSection>
 
         {/* Disclaimer */}
-        <div className="mt-20 text-center max-w-3xl mx-auto">
+        <AnimatedSection animation="fadeIn" delay={0.3} className="mt-20 text-center max-w-3xl mx-auto">
           <div className="bg-white/5 border border-white/10 rounded-xl p-6">
             <h3 className="text-xl font-bold text-white mb-2">Disclaimer</h3>
             <p className="text-gray-300 text-sm">
@@ -285,7 +303,7 @@ const Roadmap:React.FC = () => {
               Participants should exercise due diligence and understand the risks associated with digital assets.
             </p>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </div>
   );

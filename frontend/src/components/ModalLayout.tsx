@@ -21,7 +21,7 @@ export const ModalLayout: React.FC<ModalProps> = ({ isOpen, onClose, children })
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-50"
+      className="fixed  flex inset-0 bg-black/50 items-center justify-center z-50"
       onClick={onClose} // click outside closes modal
     >
       {/* backdrop */}
@@ -29,7 +29,7 @@ export const ModalLayout: React.FC<ModalProps> = ({ isOpen, onClose, children })
 
       {/* modal content */}
       <div
-        className="relative bg-gray-800 rounded-2xl shadow-lg p-6 max-w-md w-full z-10"
+        className="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-lg p-6 max-w-md w-full z-10"
         onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
       >
         {children}

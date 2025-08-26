@@ -1,9 +1,33 @@
 import React from 'react';
-import Hero from '../components/Hero';
-import TokenInfo from '../components/TokenInfo';
 import { Users, TrendingUp, Shield, Zap, ArrowRight, Star } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { Hero } from '../components/Hero';
+import TokenInfo from '../components/TokenInfo';
 
-const Home:React.FC = () => {
+
+
+// Animation variants
+const fadeInUp = (isVisible: boolean, delay = 0) => ({
+  opacity: isVisible ? 1 : 0,
+  transform: isVisible ? 'translateY(0px)' : 'translateY(30px)',
+  transition: `all 0.6s ease-out ${delay}s`,
+});
+
+const scaleIn = (isVisible: boolean, delay = 0) => ({
+  opacity: isVisible ? 1 : 0,
+  transform: isVisible ? 'scale(1)' : 'scale(0.9)',
+  transition: `all 0.6s ease-out ${delay}s`,
+});
+
+
+
+// Main Home Component
+const Home: React.FC = () => {
+  const [statsRef, statsVisible] = useScrollAnimation();
+  const [ecosystemTitleRef, ecosystemTitleVisible] = useScrollAnimation();
+  const [ecosystemCardsRef, ecosystemCardsVisible] = useScrollAnimation();
+  const [newsletterRef, newsletterVisible] = useScrollAnimation();
+
   const stats = [
     { number: '10K+', label: 'Active Users', icon: Users },
     { number: '$50M+', label: 'Total Volume', icon: TrendingUp },
@@ -39,9 +63,17 @@ const Home:React.FC = () => {
       {/* Stats Section */}
       <section className="py-20 bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div 
+            ref={statsRef as any}
+            style={fadeInUp(statsVisible)}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          >
             {stats.map((stat, index) => (
-              <div key={index} className="text-center group">
+              <div 
+                key={index} 
+                className="text-center group"
+                style={fadeInUp(statsVisible, index * 0.1)}
+              >
                 <div className="w-16 h-16 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                   <stat.icon className="w-8 h-8 text-white" />
                 </div>
@@ -53,12 +85,14 @@ const Home:React.FC = () => {
         </div>
       </section>
 
-      <TokenInfo />
-
       {/* Ecosystem Features */}
       <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div 
+            ref={ecosystemTitleRef as any}
+            style={fadeInUp(ecosystemTitleVisible)}
+            className="text-center mb-16"
+          >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Complete <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">Ecosystem</span>
             </h2>
@@ -67,9 +101,16 @@ const Home:React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div 
+            ref={ecosystemCardsRef as any}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          >
             {ecosystemFeatures.map((feature, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-cyan-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2">
+              <div 
+                key={index} 
+                className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-cyan-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2"
+                style={scaleIn(ecosystemCardsVisible, index * 0.2)}
+              >
                 <div className={`w-16 h-16 bg-gradient-to-r ${feature.gradient} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
@@ -85,10 +126,16 @@ const Home:React.FC = () => {
         </div>
       </section>
 
+      <TokenInfo/>
+
       {/* Newsletter Section */}
       <section className="py-20 bg-gradient-to-r from-cyan-900/20 to-purple-900/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
+          <div 
+            ref={newsletterRef as any}
+            style={fadeInUp(newsletterVisible)}
+            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8"
+          >
             <Star className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
             <h2 className="text-3xl font-bold text-white mb-4">Stay Updated</h2>
             <p className="text-gray-300 mb-6">
