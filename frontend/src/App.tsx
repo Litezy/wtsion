@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GeneralPages } from "./utils/pageLinks";
 import PageLayout from "./Layouts/PageLayout";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route element={<PageLayout />}>
           {GeneralPages.map((page, ind) => (
@@ -12,7 +12,7 @@ function App() {
           ))}
         </Route>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

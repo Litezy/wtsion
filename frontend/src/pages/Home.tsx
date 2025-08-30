@@ -1,8 +1,10 @@
 import React from 'react';
-import { Users, TrendingUp, Shield, Zap, ArrowRight, Star } from 'lucide-react';
+import { Users, TrendingUp, Shield, Zap, ArrowRight } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import { Hero } from '../components/Hero';
 import TokenInfo from '../components/TokenInfo';
+import Subscribe from '../components/Subscribe';
+;
 
 
 
@@ -26,7 +28,7 @@ const Home: React.FC = () => {
   const [statsRef, statsVisible] = useScrollAnimation();
   const [ecosystemTitleRef, ecosystemTitleVisible] = useScrollAnimation();
   const [ecosystemCardsRef, ecosystemCardsVisible] = useScrollAnimation();
-  const [newsletterRef, newsletterVisible] = useScrollAnimation();
+
 
   const stats = [
     { number: '10K+', label: 'Active Users', icon: Users },
@@ -56,21 +58,23 @@ const Home: React.FC = () => {
     }
   ];
 
+
+  
   return (
     <div>
       <Hero />
-      
+
       {/* Stats Section */}
       <section className="py-20 bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
+          <div
             ref={statsRef as any}
             style={fadeInUp(statsVisible)}
             className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8"
           >
             {stats.map((stat, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="text-center group"
                 style={fadeInUp(statsVisible, index * 0.1)}
               >
@@ -88,7 +92,7 @@ const Home: React.FC = () => {
       {/* Ecosystem Features */}
       <section className="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div 
+          <div
             ref={ecosystemTitleRef as any}
             style={fadeInUp(ecosystemTitleVisible)}
             className="text-center mb-16"
@@ -101,13 +105,13 @@ const Home: React.FC = () => {
             </p>
           </div>
 
-          <div 
+          <div
             ref={ecosystemCardsRef as any}
             className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           >
             {ecosystemFeatures.map((feature, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-cyan-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2"
                 style={scaleIn(ecosystemCardsVisible, index * 0.2)}
               >
@@ -126,34 +130,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <TokenInfo/>
+      <TokenInfo />
 
       {/* Newsletter Section */}
-      <section className="py-20 bg-gradient-to-r from-cyan-900/20 to-purple-900/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div 
-            ref={newsletterRef as any}
-            style={fadeInUp(newsletterVisible)}
-            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8"
-          >
-            <Star className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-white mb-4">Stay Updated</h2>
-            <p className="text-gray-300 mb-6">
-              Get the latest news, updates, and exclusive insights from the WorldStreet ecosystem
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
-              />
-              <button className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-semibold">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Subscribe/>
+
     </div>
   );
 };

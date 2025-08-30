@@ -52,13 +52,28 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
 const PageLayout = () => {
   const [showSplash, setShowSplash] = useState<boolean>(true);
+  const [isFirstVisit, setIsFirstVisit] = useState<boolean>(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2000); // splash duration
-    return () => clearTimeout(timer);
+    // Check if user has visited before in this session
+    const hasVisitedInSession = sessionStorage.getItem('wtsion_visited_session');
+    
+    if (hasVisitedInSession) {
+      // User has already visited in this session, skip splash
+      setShowSplash(false);
+      setIsFirstVisit(false);
+    } else {
+      // Mark that user has visited in this session
+      sessionStorage.setItem('wtsion_visited_session', 'true');
+      
+      // Set timer for splash screen
+      const timer = setTimeout(() => setShowSplash(false), 2000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
-  if (showSplash) {
+  // Only show splash on first visit
+  if (showSplash && isFirstVisit) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
   }
 

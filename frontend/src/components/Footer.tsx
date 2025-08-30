@@ -1,6 +1,7 @@
 import React from 'react';
-import { Globe, Twitter, MessageCircle, Mail, ExternalLink } from 'lucide-react';
+import { Twitter, MessageCircle, Mail, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
 
 const Footer:React.FC = () => {
   const socialLinks = [
@@ -29,10 +30,10 @@ const Footer:React.FC = () => {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center">
-                <Globe className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-2xl font-bold text-white">wTSION</span>
+               <Link to="/" className="flex items-center space-x-2 cursor-pointer">
+            <img className="w-20  h-20" src="/wtsion_logo.png" alt="logo" />
+            <span className="text-2xl font-bold text-white">wTSION</span>
+          </Link>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               WorldStreet Tsion - Powering the future of digital finance through innovation, 
@@ -108,7 +109,7 @@ const Footer:React.FC = () => {
         <div className="mt-12 pt-8 border-t border-gray-700">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-400 text-sm">
-              © 2024 wTSION. All rights reserved. WorldStreet Tsion ecosystem.
+              © 2025 wTSION. All rights reserved. WorldStreet Tsion ecosystem.
             </div>
             <div className="flex items-center space-x-4 text-sm text-gray-400">
               <span>Powered by BNB Smart Chain</span>

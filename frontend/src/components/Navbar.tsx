@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Globe, Menu, X } from "lucide-react";
+import {  Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navbar: React.FC = () => {
@@ -29,12 +29,10 @@ const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between ">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 cursor-pointer">
-            <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center">
-              <Globe className="w-6 h-6 text-white" />
-            </div>
+            <img className="w-20  h-20" src="/wtsion_logo.png" alt="logo" />
             <span className="text-2xl font-bold text-white">wTSION</span>
           </Link>
 
@@ -65,7 +63,7 @@ const Navbar: React.FC = () => {
             className="md:hidden text-white hover:text-cyan-400 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-10 h-10" /> : <Menu className="w-10 h-10" />}
           </button>
         </div>
 

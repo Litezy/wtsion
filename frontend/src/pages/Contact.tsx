@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
-import { 
-  Globe, 
-  Users, 
-  Shield, 
-  ExternalLink, 
-  Mail, 
-  MessageCircle, 
-  Twitter, 
-  Send, 
+import {
+  Globe,
+  Users,
+  Shield,
+  ExternalLink,
+  MessageCircle,
+  Twitter,
+  Send,
   Star,
-  CheckCircle
 } from 'lucide-react';
 import { AnimatedSection, staggerChildren } from "../hooks/useScrollAnimation";
+import Subscribe from '../components/Subscribe';
+import { ErrorMessage, SuccessMessage } from '../utils/Notify';
+import { Apis, ClientPostApi } from '../services/APIS';
+import LoadingEffect from '../shared/LoadingEffect';
 
 const Contact: React.FC = () => {
+  const [loading, setIsLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,10 +31,31 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    if (!formData.name || !formData.email || !formData.message || !formData.subject) {
+      return ErrorMessage("Please fill all fields")
+    }
+
+    const formdata = {
+      name: formData.name, email: formData.email, subject: formData.subject, message: formData.message
+    }
+    setIsLoading(true)
+    try {
+      const res = await ClientPostApi(Apis.non_auth.contact_us, formdata)
+      if (res.status) {
+        SuccessMessage(res.message)
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      }
+      else {
+        ErrorMessage(res.message || "failed to submit")
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+
   };
 
   const officialLinks = [
@@ -88,7 +112,7 @@ const Contact: React.FC = () => {
         </AnimatedSection>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          
+
           {/* Contact Form */}
           <AnimatedSection animation="fadeInLeft" delay={0.2}>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8">
@@ -96,7 +120,7 @@ const Contact: React.FC = () => {
                 <Send className="w-6 h-6" />
                 <span>Send us a Message</span>
               </h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -128,7 +152,7 @@ const Contact: React.FC = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Subject
@@ -146,7 +170,7 @@ const Contact: React.FC = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Message
@@ -161,14 +185,12 @@ const Contact: React.FC = () => {
                     placeholder="Tell us how we can help you..."
                   />
                 </div>
-                
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-4 rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-semibold flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Send Message</span>
-                </button>
+
+                <div className="w-full">
+                  <LoadingEffect  type="submit" isLoading={loading}>
+                    Submit
+                  </LoadingEffect>
+                </div>
               </form>
             </div>
           </AnimatedSection>
@@ -186,9 +208,9 @@ const Contact: React.FC = () => {
                       animation="fadeInUp"
                       delay={staggerChildren(index, 0.2)}
                     >
-                      <a 
-                        href={link.url} 
-                        target="_blank" 
+                      <a
+                        href={link.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center space-x-4 p-4 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 group"
                       >
@@ -261,33 +283,7 @@ const Contact: React.FC = () => {
         </AnimatedSection>
 
         {/* Newsletter Signup */}
-        <AnimatedSection animation="slideInUp" delay={0.3}>
-          <div className="text-center">
-            <div className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-2xl p-8 max-w-4xl mx-auto">
-              <Star className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-4">Stay Updated with wTSION</h3>
-              <p className="text-gray-300 mb-6">
-                Subscribe to our newsletter and be the first to know about new features, 
-                partnerships, and exclusive opportunities in the WorldStreet ecosystem.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-6">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20"
-                />
-                <button className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-semibold flex items-center justify-center space-x-2">
-                  <Mail className="w-4 h-4" />
-                  <span>Subscribe</span>
-                </button>
-              </div>
-              <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
-                <CheckCircle className="w-4 h-4 text-green-400" />
-                <span>No spam, unsubscribe anytime</span>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
+        <Subscribe />
 
       </div>
     </div>

@@ -307,9 +307,10 @@ const Roadmap: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 sm:mb-8">Our Team</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
             {[
-              { name: 'rst', role: 'Founder', bio: '10+ years in blockchain fintech.' },
-              { name: 'uvw', role: 'CTO', bio: 'Expert in scalable app architecture.' },
-              { name: 'xyz', role: 'Head of BizDev', bio: 'Background in cross-industry partnerships.' }
+              { name: 'DR. Daysman', role: 'Founder', bio: '10+ years in blockchain fintech.' },
+              { name: 'John Peter Odion', role: 'CTO', bio: 'Expert in scalable app architecture.' },
+              { name: 'Efosa Williams Aisevbo', role: 'Head of Business', bio: 'Background in cross-industry partnerships.' },
+              { name: 'David (Mr White)', role: 'Development', bio: 'Profound blockchain developer.' }
             ].map((member, i) => (
               <AnimatedSection
                 key={i}

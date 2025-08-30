@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Globe, Coins, Shield, Zap, CheckCircle, X } from "lucide-react";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { ModalLayout } from "./ModalLayout";
+import { submitUserData } from "../services/submitData";
+import LoadingEffect from "../shared/LoadingEffect";
 
 // Animation variants
 const fadeInUp = (isVisible: boolean, delay = 0) => ({
@@ -30,6 +32,7 @@ const fadeInRight = (isVisible: boolean, delay = 0) => ({
 
 const TokenInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // form states
   const [wallet, setWallet] = useState("");
@@ -97,7 +100,8 @@ const TokenInfo: React.FC = () => {
     if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
       newErrors.wallet = "Please enter a valid BNB Smart Chain wallet address.";
     }
-    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+    const numericAmount = Number(amount.replace(/,/g, ''));
+    if (!amount || isNaN(numericAmount) || numericAmount <= 0) {
       newErrors.amount = "Please enter a valid token amount.";
     }
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
@@ -113,20 +117,7 @@ const TokenInfo: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Submitting:", { wallet, amount, email, screenshot });
 
-      // reset states after submission
-      setIsModalOpen(false);
-      setWallet("");
-      setAmount("");
-      setEmail("");
-      setScreenshot(null);
-      setErrors({});
-    }
-  };
 
   // auto-clear errors after 3s
   useEffect(() => {
@@ -135,6 +126,39 @@ const TokenInfo: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [errors]);
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsLoading(true); // start loading
+
+    try {
+      const result = await submitUserData(
+        wallet,
+        amount.replace(/,/g, ""), // remove commas
+        email,
+        screenshot
+      );
+
+      if (result) {
+        // Reset form on success
+        setWallet("");
+        setAmount("");
+        setEmail("");
+        setScreenshot(null);
+        setErrors({});
+        setIsModalOpen(false);
+      }
+    } catch (err: any) {
+      console.log(err)
+    }
+    finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className="py-20 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden">
@@ -248,6 +272,7 @@ const TokenInfo: React.FC = () => {
 
       {/* Modal */}
       <ModalLayout isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+
         <button
           onClick={() => setIsModalOpen(false)}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
@@ -285,13 +310,24 @@ const TokenInfo: React.FC = () => {
               Amount Held
             </label>
             <input
-              type="text"
+              type="text" // use text so formatted numbers with commas work
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                // Remove any non-digit characters (except dot for decimals)
+                const rawValue = e.target.value.replace(/,/g, '');
+                const numericValue = Number(rawValue);
+
+                if (!isNaN(numericValue)) {
+                  setAmount(numericValue.toLocaleString());
+                } else {
+                  setAmount('');
+                }
+              }}
               placeholder="Enter amount"
               inputMode="decimal"
               className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white focus:outline-none focus:border-cyan-400 transition-colors"
             />
+
             {errors.amount && (
               <p className="text-red-400 text-sm mt-1">{errors.amount}</p>
             )}
@@ -341,12 +377,9 @@ const TokenInfo: React.FC = () => {
           </div>
 
           {/* Submit */}
-          <button
-            type="submit"
-            className="w-full cursor-pointer bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-cyan-600 hover:to-purple-700 transition-all duration-300 font-semibold transform hover:scale-105"
-          >
+          <LoadingEffect type="submit" isLoading={isLoading}>
             Submit
-          </button>
+          </LoadingEffect>
         </form>
       </ModalLayout>
     </section>

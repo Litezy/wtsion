@@ -20,5 +20,7 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
+package-lock.json/
+/package-lock.json
 *.sln
 *.sw?
