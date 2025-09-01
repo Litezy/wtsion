@@ -67,13 +67,13 @@ const Contact: React.FC = () => {
     },
     {
       name: 'Twitter/X',
-      url: 'https://twitter.com/official_tsion',
+      url: 'https://x.com/official_wtsion',
       icon: Twitter,
       description: 'Follow us for real-time announcements'
     },
     {
       name: 'Telegram Community',
-      url: '#',
+      url: 'https://t.me/wtsion ',
       icon: MessageCircle,
       description: 'Join our active community chat'
     }
