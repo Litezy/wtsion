@@ -39,7 +39,7 @@ export const submitUserData = async (
         formData.append("screenshot", screenshot);
 
         const response = await ClientPostFormData(Apis.non_auth.submit_data,formData)
-        console.log(response)
+        // console.log(response)
         if (response?.success) {
             SuccessMessage("Submission successful!");
             return response.data; // returns created user
