@@ -36,7 +36,7 @@ const Roadmap: React.FC = () => {
       quarter: 'Q3 2024',
       title: 'Marketplace Integration',
       items: [
-        'Tsiomart marketplace launch',
+        'Tsionmart marketplace launch',
         'Merchant onboarding program',
         'Payment gateway integration',
         'Advanced trading tools rollout',

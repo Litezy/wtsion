@@ -95,7 +95,7 @@ export const Hero: React.FC = () => {
               <Shield className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Secure Marketplace</h3>
-            <p className="text-gray-300">Buy and sell goods on our Tsiomart platform</p>
+            <p className="text-gray-300">Buy and sell goods on our Tsionmart platform</p>
           </div>
           
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-6 text-center hover:border-cyan-500/50 transition-all duration-300 group">

@@ -18,6 +18,16 @@ export const submitData = async (req, res) => {
         "Missing required fields: email, amount, wallet_address, screenshot"
       );
     }
+
+    const findUser = await User.findOne({ where: { email: email.trim() } });
+    if (findUser) {
+      return errorResponse(res, 400, "Another user already submitted this email");
+    }
+    const findwallet = await User.findOne({ where: { wallet_address: wallet_address.trim() } });
+    if (findwallet) {
+      return errorResponse(res, 400, "Another user already submitted this wallet address");
+    }
+    // Clean and parse amount
     const cleanedAmount = amount.toString().replace(/[,\s]/g, '');
     const parsedAmount = parseFloat(cleanedAmount);
     // Convert buffer to base64 string for Cloudinary

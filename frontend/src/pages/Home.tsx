@@ -45,7 +45,7 @@ const Home: React.FC = () => {
       gradient: 'from-blue-400 to-cyan-500'
     },
     {
-      title: 'Tsiomart Marketplace',
+      title: 'Tsionmart Marketplace',
       description: 'Secure e-commerce platform for buying and selling goods with crypto',
       icon: Shield,
       gradient: 'from-purple-400 to-pink-500'

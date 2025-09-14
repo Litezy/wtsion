@@ -16,22 +16,22 @@ import { AnimatedSection, staggerChildren } from "../hooks/useScrollAnimation";
 const distribution = [
   {
     category: "Public Sale",
-    percentage: 30,
-    amount: "300,000,000",
+    percentage: 50,
+    amount: "500,000,000",
     color: "#06b6d4", // cyan
     description: "Fair distribution to community members",
   },
   {
     category: "Ecosystem Development",
-    percentage: 25,
-    amount: "250,000,000",
+    percentage: 15,
+    amount: "150,000,000",
     color: "#6366f1", // indigo
     description: "Funding for features, partnerships, innovations",
   },
   {
     category: "Team & Advisors",
-    percentage: 20,
-    amount: "200,000,000",
+    percentage: 15,
+    amount: "150,000,000",
     color: "#a855f7", // purple
     description: "Vested over 24 months with 6-month cliff",
   },
@@ -44,14 +44,12 @@ const distribution = [
   },
   {
     category: "Marketing & Growth",
-    percentage: 10,
-    amount: "100,000,000",
+    percentage: 5,
+    amount: "50,000,000",
     color: "#ec4899", // pink
     description: "Global awareness initiatives",
   },
 ];
-
-
 
 const Tokenomics: React.FC = () => {
   const [isLargeScreen, setIsLargeScreen] = useState<boolean>(true);
@@ -62,6 +60,7 @@ const Tokenomics: React.FC = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  
   const tokenUtilities = [
     {
       title: "Transactions",
@@ -118,7 +117,27 @@ const Tokenomics: React.FC = () => {
             </h2>
 
             <div className="w-full flex justify-center">
-              <PieChart width={isLargeScreen ? 1200 : 400} height={400}>
+              <style>{`
+                .recharts-wrapper,
+                .recharts-wrapper *,
+                .recharts-surface,
+                .recharts-sector {
+                  outline: none !important;
+                  border: none !important;
+                }
+                .recharts-wrapper:focus,
+                .recharts-wrapper *:focus,
+                .recharts-surface:focus,
+                .recharts-sector:focus {
+                  outline: none !important;
+                  border: none !important;
+                }
+              `}</style>
+              <PieChart 
+                width={isLargeScreen ? 1200 : 400} 
+                height={400}
+                style={{ outline: 'none' }}
+              >
                 {distribution.map((entry, index) => {
                   const total = distribution.reduce((sum, d) => sum + d.percentage, 0);
                   const startAngle =
@@ -157,6 +176,8 @@ const Tokenomics: React.FC = () => {
                           startAngle={startAngle}
                           endAngle={endAngle}
                           fill={entry.color}
+                          stroke="none"
+                          style={{ outline: 'none' }}
                         />
                         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={entry.color} fill="none" />
                         <circle cx={ex} cy={ey} r={3} fill={entry.color} stroke="none" />
@@ -183,6 +204,8 @@ const Tokenomics: React.FC = () => {
                         startAngle={startAngle}
                         endAngle={endAngle}
                         fill={entry.color}
+                        stroke="none"
+                        style={{ outline: 'none' }}
                       />
                     );
                   }
@@ -192,7 +215,7 @@ const Tokenomics: React.FC = () => {
 
             {/* Legend for small/medium screens */}
             {!isLargeScreen && (
-              <div className=" flex flex-wrap justify-center gap-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 {distribution.map((entry) => (
                   <div key={entry.category} className="flex items-center space-x-2">
                     <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: entry.color }}></div>
@@ -204,21 +227,19 @@ const Tokenomics: React.FC = () => {
           </div>
         </AnimatedSection>
 
-
-
         {/* Token Utilities */}
         <AnimatedSection animation="fadeInRight">
-          <div className="bg-white/5 backdrop-blur-md  rounded-2xl p-8 mb-20">
+          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 mb-20">
             <h3 className="text-2xl font-bold text-white mb-6">Token Utilities</h3>
-            <div className="space-y-6 ">
+            <div className="space-y-6">
               {tokenUtilities.map((utility, index) => (
                 <AnimatedSection
                   key={index}
                   animation="fadeInUp"
                   delay={staggerChildren(index)}
                 >
-                  <div className="flex  items-start space-x-4 p-4 rounded-lg bg-gray-800/30 hover:bg-gray-700/40 transition-colors">
-                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center ">
+                  <div className="flex items-start space-x-4 p-4 rounded-lg bg-gray-800/30 hover:bg-gray-700/40 transition-colors">
+                    <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-lg flex items-center justify-center">
                       <utility.icon className="w-5 h-5 text-white" />
                     </div>
                     <div className="flex-1">

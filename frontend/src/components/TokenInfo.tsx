@@ -78,7 +78,7 @@ const TokenInfo: React.FC = () => {
     },
     {
       title: "Marketplace Access",
-      description: "Use tokens for purchases on Tsiomart platform",
+      description: "Use tokens for purchases on Tsionmart platform",
       gradient: "from-orange-400 to-red-500",
     },
     {
